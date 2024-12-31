@@ -1,18 +1,50 @@
 <template>
-   <button class="openCreate" @click="openCreate()">Создать задание</button>
+  <button class="openCreate" @click="openCreate()">Создать задание</button>
   <div>
     <h2>Список задач</h2>
-    <ul class="taskContainer">
-      <li v-for="task in tasks" :key="task.id" @click="open(task)" class="cardStyle">
-        <h2>{{ task.title }}</h2>
-         <hr>
-        <p class="description">{{ task.description }}</p>
+    <div class="containerDiv">
+      <div class="containerDivBlok">
 
-        <button class="updatedTasks" @click.stop="updatedTasks(task)">Изменить</button>
-        <button class="detailsTask" @click.stop="detailsTask(task)">Детали</button>
-        <button class="deleteTask" @click.stop="deleteTask(task.id)">Удалить</button>
-      </li>
-    </ul>
+        <div class="status_to-start"></div>
+
+        <ul class="taskContainer">
+          <li v-for="task in tasks.filter(task => task.status === 'to-start')" :key="task.id"
+            @click.stop="detailsTask(task)" class="cardStyle">
+            <h2>{{ task.title }}</h2>
+            <hr>
+            <p class="description">{{ task.description }}</p>
+            <div class="date"><p>{{ task.date }}</p></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="containerDivBlok">
+        <div class="status_in-progress"></div>
+        <ul class="taskContainer">
+          <li v-for="task in tasks.filter(task => task.status === 'in-progress')" :key="task.id" class="cardStyle"
+            @click.stop="detailsTask(task)">
+            <h2>{{ task.title }}</h2>
+            <hr>
+            <p class="description">{{ task.description }}</p>
+            <div class="date"><p>{{ task.date }}</p></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="containerDivBlok">
+        <div class="status_completed"></div>
+        <ul class="taskContainer">
+          <li v-for="task in tasks.filter(task => task.status === 'completed')" :key="task.id"
+            @click.stop="detailsTask(task)" class="cardStyle">
+            <h2>{{ task.title }}</h2>
+            <hr>
+            <p class="description">{{ task.description }}</p>
+            <div class="date"><p>{{ task.date }}</p></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <div v-if="showModal" class="modal">
 
       <div class="modal_content">
@@ -29,16 +61,16 @@
         </label>
         <button class="saveTask" @click="saveTask()">Сохранить</button>
         <button class="closeModal" @click="closeModal()">Закрыть</button>
-
       </div>
     </div>
 
     <div v-if="selectedTask" class="modal">
       <div class="modal_content">
         <h2>Детали задания</h2>
-        <p>ID: {{ selectedTask.id }}</p>
         <p>Название: {{ selectedTask.title }}</p>
         <p><strong>Описание:</strong> {{ selectedTask.description }}</p>
+        <button class="deleteTask" @click.stop="deleteTask(selectedTask.id)">Удалить</button>
+        <button class="updatedTasks" @click.stop="updatedTasks(selectedTask)">Изменить</button>
         <button class="close" @click="close()">Закрыть</button>
       </div>
     </div>
@@ -50,9 +82,90 @@ export default {
   data() {
     return {
       tasks: [
-        { id: 1, title: "Задание 1", description: "не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти" },
-        { id: 2, title: "Задание 2", description: "не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума " },
-        { id: 3, title: "Задание 3", description: "не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума не сойти с ума " },
+        {
+          id: 1,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-30",
+          status: "to-start",
+        },
+        {
+          id: 6,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-30",
+          status: "to-start",
+        },
+        {
+          id: 7,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-30",
+          status: "to-start",
+        },
+        {
+          id:8,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-30",
+          status: "to-start",
+        },
+        {
+          id: 2,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-29",
+          status: "in-progress",
+        },
+        {
+          id: 9,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-29",
+          status: "in-progress",
+        },
+        {
+          id: 10,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-29",
+          status: "in-progress",
+        },
+        {
+          id: 11,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-29",
+          status: "in-progress",
+        },
+        {
+          id: 3,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-28",
+          status: "completed",
+        },
+        {
+          id: 12,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-28",
+          status: "completed",
+        },
+        {
+          id: 13,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-28",
+          status: "completed",
+        },
+        {
+          id: 14,
+          title: "Title of the Task",
+          description: "Description of the task.",
+          date: "2024-12-28",
+          status: "completed",
+        },
       ],
       selectedTask: null,
       showModal: false,
@@ -67,6 +180,7 @@ export default {
       this.showModal = true;
     },
     updatedTasks(task) {
+      this.close();
       this.taskForm = { ...task };
       this.updatedTask = true;
       this.showModal = true;
@@ -84,15 +198,19 @@ export default {
         const newTask = {
           ...this.taskForm,
           id: this.tasks.length ? this.tasks[this.tasks.length - 1].id + 1 : 1,
+          status: "to-start", // Установим статус по умолчанию
         };
         this.tasks.push(newTask);
       }
-      this.closeModal();
-    },
+      this.closeModal(); // Закрываем модальное окно после сохранения
+    }
+    ,
     deleteTask(id) {
+      this.close();
       this.tasks = this.tasks.filter((task) => task.id !== id);
     },
     detailsTask(task) {
+      this.closeModal();
       this.selectedTask = task;
     },
     close() {
@@ -109,12 +227,11 @@ export default {
   cursor: pointer;
   padding: 10px;
   margin: 5px 0;
-  border: 1px solid #ccc;
   border-radius: 5px;
   border: 1px solid #36bdb6;
-  max-width: 300px;
-  width: 100%;
-  max-height: 350px;
+  background: #ffffff;
+  width: 350px;
+  max-height: 300px;
   gap: 15px;
 }
 
@@ -148,6 +265,9 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 8px;
+  background: #d3f5f7;
+  padding: 20px;
+  border-radius: 20px;
 }
 
 .description {
@@ -161,7 +281,7 @@ export default {
   -webkit-line-clamp: 4;
 }
 
-.textarea{
+.textarea {
   max-width: 400px;
   width: 100%;
   max-height: 400px;
@@ -171,7 +291,7 @@ export default {
   padding: 8px;
 }
 
-input{
+input {
   border: 2px solid #36bdb6;
   border-radius: 5px;
   max-width: 300px;
@@ -180,51 +300,99 @@ input{
   padding: 8px;
 }
 
-.updatedTasks{
+.containerDiv {
+  display: flex;
+  gap: 60px;
+}
+
+.status_to-start {
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  border: #3682bd solid 2px;
+  background: #3682bd;
+  box-shadow: #b1d2ec 0px 50px 100px -20px, #bcd2e4 0px 0px 6px 10px;
+}
+
+.status_in-progress {
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  background: #b2bd36;
+  box-shadow: #eff3c6 0px 50px 100px -20px, #eff3c6 0px 0px 6px 10px;
+}
+
+.status_completed {
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  background: #46bd36;
+  box-shadow: #c0e6bb 0px 50px 100px -20px, #c0e6bb 0px 0px 6px 10px;
+}
+
+.containerDivBlok{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.updatedTasks {
   background: #b7edeb;
 }
-.updatedTasks:hover{
+
+.updatedTasks:hover {
   background: #36bdb6;
 }
-.detailsTask{
+
+.detailsTask {
   background: #dbbdf8;
 }
-.detailsTask:hover{
+
+.detailsTask:hover {
   background: #7c36bd;
 }
-.deleteTask{
+
+.deleteTask {
   background: #e5a9a9;
 }
-.deleteTask:hover{
+
+.deleteTask:hover {
   background: #bd3636;
 }
-.openCreate{
+
+.openCreate {
   background: #36bd38;
   position: fixed;
   display: flex;
   justify-content: center;
   bottom: 50px;
 }
-.saveTask{
+
+.saveTask {
   background: #e1e1a6;
 }
-.saveTask:hover{
+
+.saveTask:hover {
   background: #bdbd36;
 }
-.closeModal{
+
+.closeModal {
   background: #dca4a4;
 }
-.closeModal:hover{
+
+.closeModal:hover {
   background: #bd3636;
 }
-.close{
+
+.close {
   background: #dfa0cd;
 }
-.close:hover{
+
+.close:hover {
   background: #bd3697;
 }
 
-button{
+button {
   color: white;
   border: none;
 }
