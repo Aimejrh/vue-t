@@ -1,9 +1,10 @@
 <script setup>
-import TaskList from './components/TaskList.vue';
 </script>
 
 <template>
-  <TaskList />
+  <div>
+    <router-view />
+  </div>
 </template>
 
 <style scoped></style>
