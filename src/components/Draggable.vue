@@ -1,6 +1,7 @@
 <template>
   <div class="draggable">
-    <div ref="draggable" id="draggable" @mousedown="onMouseDown" :style="[draggableStyle, isDraggable ? glowingStyle : {}]">
+    <div ref="draggable" id="draggable" @mousedown="onMouseDown"
+      :style="[draggableStyle, isDraggable ? glowingStyle : {}]">
       <h2>{{ task.name }}</h2>
       <div class="hr"></div>
       <p>{{ task.description }}</p>
@@ -29,7 +30,7 @@ export default {
         transition: 'box-shadow 0.3s ease'
       },
       glowingStyle: {
-        boxShadow: '0 0 15px 5px rgba(52, 152, 219, 0.8)', // Эффект свечения
+        boxShadow: '0 0 15px 5px rgba(52, 152, 219, 0.8)',
       },
     };
   },
@@ -90,8 +91,10 @@ export default {
 }
 
 #draggable {
-  width: 200px;
-  height: 150px;
+  max-width: 350px;
+  max-height: 160px;
+  width: 100%;
+  height: 100%;
   background-color: #ffffff;
   color: black;
   display: flex;
@@ -103,5 +106,6 @@ export default {
   user-select: none;
   gap: 15px;
   padding: 20px;
+  opacity: 0.8;
 }
 </style>
