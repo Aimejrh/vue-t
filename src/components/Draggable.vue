@@ -172,6 +172,7 @@
 
       this.lastTapTime = currentTime;
     },
+
   },
   mounted() {
     window.addEventListener('resize', this.updatePositionOnResize);
