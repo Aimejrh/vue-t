@@ -1,3 +1,5 @@
 <template>
-  <button><a href="/Task">создать виджет</a></button>
+  <router-link to="/Task">
+    <button>создать виджет</button>
+  </router-link>
 </template>
