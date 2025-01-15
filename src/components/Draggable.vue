@@ -123,62 +123,61 @@
         this.draggableStyle.top = `${Math.max(newTop, 20)}px`;
       }
     },
+    onTouchStart(e) {
+      const currentTime = new Date().getTime();
+      const timeDifference = currentTime - this.lastTapTime;
 
+      if (timeDifference < 300 && timeDifference > 0) {
+        this.enableEditing();
+      } else {
+        const draggable = this.$refs.draggable;
+        const touch = e.touches[0];
+        this.isDraggable = true;
+        this.coordinateX = touch.clientX - draggable.offsetLeft;
+        this.coordinateY = touch.clientY - draggable.offsetTop;
+
+        const onTouchMove = (e) => {
+          if (this.isDraggable) {
+            const touch = e.touches[0];
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const elementWidth = draggable.offsetWidth;
+            const elementHeight = draggable.offsetHeight;
+
+            let newLeft = touch.clientX - this.coordinateX;
+            let newTop = touch.clientY - this.coordinateY;
+
+            if (newLeft < 30) newLeft = 30;
+            if (newLeft > windowWidth - elementWidth - 30)
+              newLeft = windowWidth - elementWidth - 30;
+
+            if (newTop < 30) newTop = 30;
+            if (newTop > windowHeight - elementHeight - 30)
+              newTop = windowHeight - elementHeight - 30;
+
+            this.draggableStyle.left = `${newLeft}px`;
+            this.draggableStyle.top = `${newTop}px`;
+          }
+        };
+
+        const onTouchEnd = () => {
+          this.isDraggable = false;
+          document.removeEventListener('touchmove', onTouchMove);
+          document.removeEventListener('touchend', onTouchEnd);
+        };
+
+        document.addEventListener('touchmove', onTouchMove);
+        document.addEventListener('touchend', onTouchEnd);
+      }
+
+      this.lastTapTime = currentTime;
+    },
   },
   mounted() {
     window.addEventListener('resize', this.updatePositionOnResize);
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updatePositionOnResize);
-  },
-  onTouchStart(e) {
-    const currentTime = new Date().getTime();
-    const timeDifference = currentTime - this.lastTapTime;
-
-    if (timeDifference < 300 && timeDifference > 0) {
-      this.enableEditing();
-    } else {
-      const draggable = this.$refs.draggable;
-      const touch = e.touches[0];
-      this.isDraggable = true;
-      this.coordinateX = touch.clientX - draggable.offsetLeft;
-      this.coordinateY = touch.clientY - draggable.offsetTop;
-
-      const onTouchMove = (e) => {
-        if (this.isDraggable) {
-          const touch = e.touches[0];
-          const windowWidth = window.innerWidth;
-          const windowHeight = window.innerHeight;
-          const elementWidth = draggable.offsetWidth;
-          const elementHeight = draggable.offsetHeight;
-
-          let newLeft = touch.clientX - this.coordinateX;
-          let newTop = touch.clientY - this.coordinateY;
-
-          if (newLeft < 30) newLeft = 30;
-          if (newLeft > windowWidth - elementWidth - 30)
-            newLeft = windowWidth - elementWidth - 30;
-
-          if (newTop < 30) newTop = 30;
-          if (newTop > windowHeight - elementHeight - 30)
-            newTop = windowHeight - elementHeight - 30;
-
-          this.draggableStyle.left = `${newLeft}px`;
-          this.draggableStyle.top = `${newTop}px`;
-        }
-      };
-
-      const onTouchEnd = () => {
-        this.isDraggable = false;
-        document.removeEventListener('touchmove', onTouchMove);
-        document.removeEventListener('touchend', onTouchEnd);
-      };
-
-      document.addEventListener('touchmove', onTouchMove);
-      document.addEventListener('touchend', onTouchEnd);
-    }
-
-    this.lastTapTime = currentTime;
   },
 };
 </script>
