@@ -29,61 +29,7 @@
       isEditable: false,
       coordinateX: 0,
       coordinateY: 0,
-      onTouchStart(e) {
-  const draggable = this.$refs.draggable;
-  const touch = e.touches[0];
-
-  // Сохраняем начальные координаты
-  this.coordinateX = touch.clientX - draggable.offsetLeft;
-  this.coordinateY = touch.clientY - draggable.offsetTop;
-
-  // Устанавливаем таймер для активации режима перемещения
-  this.holdTimeout = setTimeout(() => {
-    this.isDraggable = true; // Разрешить перемещение
-
-    // Вибрация устройства
-    if (navigator.vibrate) {
-      navigator.vibrate(200); // Вибрация на 200 мс
-    }
-  }, 2000); // Таймаут 2 секунды
-
-  const onTouchMove = (e) => {
-    if (this.isDraggable) {
-      const touch = e.touches[0];
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-      const elementWidth = draggable.offsetWidth;
-      const elementHeight = draggable.offsetHeight;
-
-      let newLeft = touch.clientX - this.coordinateX;
-      let newTop = touch.clientY - this.coordinateY;
-
-      // Ограничиваем перемещение по экрану
-      if (newLeft < 30) newLeft = 30;
-      if (newLeft > windowWidth - elementWidth - 30)
-        newLeft = windowWidth - elementWidth - 30;
-
-      if (newTop < 30) newTop = 30;
-      if (newTop > windowHeight - elementHeight - 30)
-        newTop = windowHeight - elementHeight - 30;
-
-      this.draggableStyle.left = `${newLeft}px`;
-      this.draggableStyle.top = `${newTop}px`;
-    }
-  };
-
-  const onTouchEnd = () => {
-    // Очистить таймер, если палец убран раньше времени
-    clearTimeout(this.holdTimeout);
-    this.isDraggable = false; // Остановить перемещение
-    document.removeEventListener('touchmove', onTouchMove);
-    document.removeEventListener('touchend', onTouchEnd);
-  };
-
-  document.addEventListener('touchmove', onTouchMove);
-  document.addEventListener('touchend', onTouchEnd);
-},
-: null,
+      holdTimeout: null,
       draggableStyle: {
         position: 'fixed',
         cursor: 'grab',
@@ -181,19 +127,16 @@
       const draggable = this.$refs.draggable;
       const touch = e.touches[0];
 
-      // Сохраняем начальные координаты
       this.coordinateX = touch.clientX - draggable.offsetLeft;
       this.coordinateY = touch.clientY - draggable.offsetTop;
 
-      // Устанавливаем таймер для активации режима перемещения
       this.holdTimeout = setTimeout(() => {
-        this.isDraggable = true; // Разрешить перемещение
+        this.isDraggable = true; 
 
-        // Вибрация устройства
         if (navigator.vibrate) {
-          navigator.vibrate(200); // Вибрация на 200 мс
+          navigator.vibrate(200); 
         }
-      }, 2000); // Таймаут 2 секунды
+      }, 2000); 
 
       const onTouchMove = (e) => {
         if (this.isDraggable) {
@@ -206,7 +149,6 @@
           let newLeft = touch.clientX - this.coordinateX;
           let newTop = touch.clientY - this.coordinateY;
 
-          // Ограничиваем перемещение по экрану
           if (newLeft < 30) newLeft = 30;
           if (newLeft > windowWidth - elementWidth - 30)
             newLeft = windowWidth - elementWidth - 30;
@@ -221,9 +163,8 @@
       };
 
       const onTouchEnd = () => {
-        // Очистить таймер, если палец убран раньше времени
         clearTimeout(this.holdTimeout);
-        this.isDraggable = false; // Остановить перемещение
+        this.isDraggable = false; 
         document.removeEventListener('touchmove', onTouchMove);
         document.removeEventListener('touchend', onTouchEnd);
       };
