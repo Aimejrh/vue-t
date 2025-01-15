@@ -5,8 +5,9 @@
         <button @click="togglePanel">Открыть панель</button>
       </div>
 
-      <div v-if="isPanelVisible" ref="draggable" id="draggable" @mousedown="onMouseDown"
+      <div v-if="isPanelVisible" ref="draggable" id="draggable" @mousedown="onMouseDown" @touchstart="onTouchStart"
         :style="[draggableStyle, isDraggable ? glowingStyle : {}]">
+
         <div class="draggableCross">
           <button class="draggableCrossButton" @click="closeCross"><img src="../../public/Vector.svg" alt=""></button>
         </div>
@@ -131,12 +132,12 @@
       this.coordinateY = touch.clientY - draggable.offsetTop;
 
       this.holdTimeout = setTimeout(() => {
-        this.isDraggable = true; 
+        this.isDraggable = true;
 
         if (navigator.vibrate) {
-          navigator.vibrate(200); 
+          navigator.vibrate(200);
         }
-      }, 2000); 
+      }, 2000);
 
       const onTouchMove = (e) => {
         if (this.isDraggable) {
@@ -164,7 +165,7 @@
 
       const onTouchEnd = () => {
         clearTimeout(this.holdTimeout);
-        this.isDraggable = false; 
+        this.isDraggable = false;
         document.removeEventListener('touchmove', onTouchMove);
         document.removeEventListener('touchend', onTouchEnd);
       };
