@@ -33,8 +33,8 @@
       draggableStyle: {
         position: 'fixed',
         cursor: 'grab',
-        // left: '20px',
-        // top: '20px',
+        left: '20px',
+        top: '20px',
         transition: 'box-shadow 0.3s ease',
       },
       glowingStyle: {
